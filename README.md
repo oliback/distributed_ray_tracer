@@ -3,7 +3,7 @@ Utilizes OpenMPI to distribute the workload of computing a ray traced image over
 ## Example render
 ![spheres](/img/spheres.bmp?raw=true)
 ## Speedup graph
-Example of speedup achieved when workload was distributed to three Ubuntu machines on the same network.
+Example of speedup achieved when workload was distributed to three Ubuntu machines (14 logical cores total) on the same network.
 ![speedup](/img/speedup.PNG?raw=true)
 ## Installation
 This project has only been tested on Ubuntu 18.04.
