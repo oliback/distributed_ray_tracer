@@ -1,0 +1,4 @@
+localhost slots=8 max_slots=8
+192.168.1.82 slots=4 max_slots=4
+#192.168.1.67 slots=2 max_slots=2
+# 130.243.73.72 slots=2 max_slots=2
