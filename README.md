@@ -27,8 +27,11 @@ libopenmpi2
 ## Usage
 ```bash
 make
-mpirun -np <number of processes> -hostfile <filename> build/app/ray_tracer
+mpirun -np <number of processes> -hostfile <filename> build/app/ray_tracer -r 1920 1080 -sn 400 -R 100
 ```
+The flag -r and following numbers indicate the resolution you want the rendered image to be.
+The -sn flag and following number indicate the number of spheres to include in the scene in front and behind the camera.
+The -R flag and following number indicate the recursion depth to use for the ray tracing.
 The hostfile contains an example list of computers in a local network and how many processes they can handle.
 This file needs to be changed to list the IP addresses of computers in your network that will contribute to the computation.
 Short example of a hostfile below.

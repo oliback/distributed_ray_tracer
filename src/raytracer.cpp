@@ -55,9 +55,10 @@ void RayTracer::print_test_count()
     printf("%llu intersection tests were performed\n", test_counter);
 }
 
-RayTracer::RayTracer(Scene * scene, Image * image) {
+RayTracer::RayTracer(Scene * scene, Image * image, int _recursion_depth) {
     this->scene = scene;
     this->image = image;
+    recursion_depth = _recursion_depth;
     test_counter = 0;
 }
 
@@ -157,7 +158,7 @@ Vec3f RayTracer::trace_ray(Ray &ray, HitRec & hitRec, int rcounter) {
 
         /* if reflective, reflect ray */
         /* don't exceed recursion limit */
-        if (hit_sphere->is_reflective() && rcounter < RECURSION) {
+        if (hit_sphere->is_reflective() && rcounter < this->recursion_depth) {
             Ray reflect_ray;
             Vec3f reflect_color;
             float reflect;

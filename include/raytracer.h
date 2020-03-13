@@ -15,7 +15,6 @@
 #include "ray.h"
 #include "timer.h"
 
-#define RECURSION 100
 #define invsqrt(x) (1.0f / sqrt(x))
 #define MASTER 1
 #define WORKER 2
@@ -67,6 +66,7 @@ private:
     Camera camera;
     int width;
     int height;
+    int recursion_depth;
     
     Vec3f getEyeRayDirection(int, int);
 
@@ -74,7 +74,7 @@ public:
     void dbg_printf(const char*, ...);
 	void set_camera(float, float, float, float, float);
 	void print_test_count();
-	RayTracer(Scene*, Image*);
+	RayTracer(Scene*, Image*, int);
 	void searchClosestHit(const Ray&, HitRec&);
     Vec3f trace_ray(Ray&, HitRec&, int);
     Vec3f fire_ray(int, int);
