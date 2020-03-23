@@ -149,37 +149,38 @@ int main(int argc, char* argv[])
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    for (int ii=0; ii<argc; ++ii) {
+        /* custom resolution */
+        if (strcmp(argv[ii], "-r") == 0) {
+            int w = atoi(argv[ii+1]);
+            int h = atoi(argv[ii+2]);
+
+            if (w < 1 || h < 1) {
+                printf("resolution can not be less than one.");
+                return 1;
+            } else {
+                width = w;
+                height = h;
+            }
+        } else if (strcmp(argv[ii], "-sn") == 0) {
+            nr_spheres = atoi(argv[ii+1]);
+            if (nr_spheres < 1) {
+                printf("number of spheres can not be less than one.");
+                return 1;
+            }
+        } else if (strcmp(argv[ii], "-R") == 0) {
+            recursion_depth = atoi(argv[ii+1]);
+
+            if (recursion_depth < 1) {
+                printf("recursion depth can not be less than one.");
+                return 1;
+            }
+        }
+    }
     
     /* master will set up the screen etc. */
     if (rank == 0) {
-        for (int ii=0; ii<argc; ++ii) {
-            /* custom resolution */
-            if (strcmp(argv[ii], "-r") == 0) {
-                int w = atoi(argv[ii+1]);
-                int h = atoi(argv[ii+2]);
-
-                if (w < 1 || h < 1) {
-                    printf("resolution can not be less than one.");
-                    return 1;
-                } else {
-                    width = w;
-                    height = h;
-                }
-            } else if (strcmp(argv[ii], "-sn") == 0) {
-                nr_spheres = atoi(argv[ii+1]);
-                if (nr_spheres < 1) {
-                    printf("number of spheres can not be less than one.");
-                    return 1;
-                }
-            } else if (strcmp(argv[ii], "-R") == 0) {
-                recursion_depth = atoi(argv[ii+1]);
-                if (recursion_depth < 1) {
-                    printf("recursion depth can not be less than one.");
-                    return 1;
-                }
-            }
-        }
-
         if (SDL_Init(SDL_INIT_VIDEO) < 0 ) return 1;
        
         if (!(screen = SDL_SetVideoMode(width, height, DEPTH, SDL_RESIZABLE|SDL_HWSURFACE)))
@@ -197,16 +198,6 @@ int main(int argc, char* argv[])
         srand(time(NULL));
         time1 = Timer::timer();
     } else {
-        for (int ii=0; ii<argc; ++ii) {
-            if (strcmp(argv[ii], "-R") == 0) {
-                recursion_depth = atoi(argv[ii+1]);
-                if (recursion_depth < 1) {
-                    printf("recursion depth can not be less than one.");
-                    return 1;
-                }
-            }
-        }
-
         /* slave processes needs to initialize the scene */
         init(recursion_depth);
     }
